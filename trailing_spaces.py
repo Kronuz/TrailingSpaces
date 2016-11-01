@@ -407,10 +407,6 @@ class TrailingSpacesListener(sublime_plugin.EventListener):
         if trailing_spaces_live_matching:
             match_trailing_spaces(view)
 
-    # def on_selection_modified(self, view):
-    #     if trailing_spaces_live_matching:
-    #         match_trailing_spaces(view)
-
     def on_activated(self, view):
         self.freeze_last_version(view)
         if trailing_spaces_live_matching:
@@ -433,7 +429,10 @@ class TrailingSpacesListener(sublime_plugin.EventListener):
         # For some reasons, the on_activated hook gets fired on a ghost document
         # from time to time.
         if file_name:
-            on_disk = codecs.open(file_name, "r", "utf-8").read().splitlines()
+            try:
+                on_disk = codecs.open(file_name, "r", "utf-8").read().splitlines()
+            except Exception:
+                pass
 
 
 # Public: Deletes the trailing spaces.
